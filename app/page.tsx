@@ -110,6 +110,13 @@ export default function Chat() {
                   <span className='sr-only'>Close</span>
                 </Button>
               </CardHeader>
+              <CardContent>
+                <ScrollArea className='h-[300px] pr-4'>
+                  <div className='w-full mt-32 text-gray-500 items-center justify-center flex gap-3'>
+                    No massage yet.
+                  </div>
+                </ScrollArea>
+              </CardContent>
             </Card>
           </motion.div>
         )}
