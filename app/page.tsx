@@ -153,13 +153,7 @@ export default function Chat() {
                           children={message.content}
                           remarkPlugins={[remarkGfm]}
                           components={{
-                            code: ({
-                              node,
-                              inline,
-                              className,
-                              children,
-                              ...props
-                            }) => {
+                            code: ({ inline, children, ...props }) => {
                               return inline ? (
                                 <code
                                   {...props}
