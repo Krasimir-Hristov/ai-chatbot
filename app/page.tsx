@@ -55,6 +55,10 @@ export default function Chat() {
     };
   }, []);
 
+  const toggleChat = () => {
+    setIsChatOpen(!isChatOpen);
+  };
+
   return (
     <div className='flex flex-col min-h-screen'>
       <LandingSections />
