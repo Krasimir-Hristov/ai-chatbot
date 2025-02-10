@@ -123,9 +123,43 @@ export default function Chat() {
               </CardHeader>
               <CardContent>
                 <ScrollArea className='h-[300px] pr-4'>
-                  <div className='w-full mt-32 text-gray-500 items-center justify-center flex gap-3'>
-                    No massage yet.
-                  </div>
+                  {messages?.length === 0 && (
+                    <div className='w-full mt-32 text-gray-500 items-center justify-center flex gap-3'>
+                      No massage yet.
+                    </div>
+                  )}
+                  {messages?.map((massage, index) => (
+                    <div
+                      key={index}
+                      className='flex flex-col items-start space-y-2 px-4 py-3 text-sm'
+                    >
+                      messages
+                    </div>
+                  ))}
+                  {isLoading && (
+                    <div className='w-full items-center flex justify-center gap-3'>
+                      <Loader2 className='animate-spin h-5 w-5 text-primary' />
+                      <button
+                        className='underline'
+                        type='button'
+                        onClick={() => stop()}
+                      >
+                        Abort
+                      </button>
+                    </div>
+                  )}
+                  {error && (
+                    <div className='w-full items-center flex justify-center gap-3'>
+                      <p>An error occurred.</p>
+                      <button
+                        className='underline'
+                        type='button'
+                        onClick={() => reload()}
+                      >
+                        Retry
+                      </button>
+                    </div>
+                  )}
                 </ScrollArea>
               </CardContent>
               <CardFooter>
