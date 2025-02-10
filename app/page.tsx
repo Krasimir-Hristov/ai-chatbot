@@ -128,6 +128,27 @@ export default function Chat() {
                   </div>
                 </ScrollArea>
               </CardContent>
+              <CardFooter>
+                <form
+                  onSubmit={handleSubmit}
+                  className='flex w-full items-center space-x-2'
+                >
+                  <Input
+                    value={input}
+                    onChange={handleInputChange}
+                    className='flex-1'
+                    placeholder='Type your message here...'
+                  />
+                  <Button
+                    type='submit'
+                    className='size-9'
+                    disabled={isLoading}
+                    size='icon'
+                  >
+                    <Send className='size-4' />
+                  </Button>
+                </form>
+              </CardFooter>
             </Card>
           </motion.div>
         )}
