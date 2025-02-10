@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+// Премахваме import type { CodeProps } ... защото няма да го използваме
 
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -29,6 +30,32 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useChat } from '@ai-sdk/react';
 
 import LandingSections from '@/components/LandingSections';
+
+// 1) Дефинираме си наш собствен интерфейс, вместо да внасяме от 'react-markdown/lib/...'
+interface MyCodeProps extends React.HTMLAttributes<HTMLElement> {
+  inline?: boolean;
+  className?: string;
+  children?: React.ReactNode;
+}
+
+// 2) Правим компонент, който ползва този интерфейс
+function CodeBlock({ inline, children, className, ...props }: MyCodeProps) {
+  if (inline) {
+    return (
+      <code
+        {...props}
+        className={`bg-gray-200 px-1 rounded ${className || ''}`}
+      >
+        {children}
+      </code>
+    );
+  }
+  return (
+    <pre {...props} className={`bg-gray-200 p-2 rounded ${className || ''}`}>
+      <code>{children}</code>
+    </pre>
+  );
+}
 
 export default function Chat() {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -59,12 +86,9 @@ export default function Chat() {
     };
 
     handleScroll();
-
     window.addEventListener('scroll', handleScroll);
 
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const toggleChat = () => {
@@ -80,6 +104,7 @@ export default function Chat() {
   return (
     <div className='flex flex-col min-h-screen'>
       <LandingSections />
+
       <AnimatePresence>
         {showChatIcon && (
           <motion.div
@@ -104,6 +129,7 @@ export default function Chat() {
           </motion.div>
         )}
       </AnimatePresence>
+
       <AnimatePresence>
         {isChatOpen && (
           <motion.div
@@ -128,6 +154,7 @@ export default function Chat() {
                   <span className='sr-only'>Close</span>
                 </Button>
               </CardHeader>
+
               <CardContent>
                 <ScrollArea className='h-[300px] pr-4'>
                   {messages?.length === 0 && (
@@ -135,6 +162,7 @@ export default function Chat() {
                       No message yet.
                     </div>
                   )}
+
                   {messages?.map((message, index) => (
                     <div
                       key={index}
@@ -147,40 +175,26 @@ export default function Chat() {
                           message.role === 'user'
                             ? 'bg-primary text-primary-foreground'
                             : 'bg-muted'
-                        } `}
+                        }`}
                       >
                         <ReactMarkdown
-                          children={message.content}
                           remarkPlugins={[remarkGfm]}
                           components={{
-                            code: ({ inline, children, ...props }) => {
-                              return inline ? (
-                                <code
-                                  {...props}
-                                  className='bg-gray-200 px-1 rounded'
-                                >
-                                  {children}
-                                </code>
-                              ) : (
-                                <pre
-                                  {...props}
-                                  className='bg-gray-200 p-2 rounded'
-                                >
-                                  <code>{children}</code>
-                                </pre>
-                              );
-                            },
+                            code: CodeBlock, // Ползваме си нашия типизиран компонент
                             ul: ({ children }) => (
                               <ul className='list-disc ml-4'>{children}</ul>
                             ),
                             ol: ({ children }) => (
-                              <li className='list-decimal ml-4'>{children}</li>
+                              <ol className='list-decimal ml-4'>{children}</ol>
                             ),
                           }}
-                        />
+                        >
+                          {message.content}
+                        </ReactMarkdown>
                       </div>
                     </div>
                   ))}
+
                   {isLoading && (
                     <div className='w-full items-center flex justify-center gap-3'>
                       <Loader2 className='animate-spin h-5 w-5 text-primary' />
@@ -193,6 +207,7 @@ export default function Chat() {
                       </button>
                     </div>
                   )}
+
                   {error && (
                     <div className='w-full items-center flex justify-center gap-3'>
                       <p>An error occurred.</p>
@@ -205,9 +220,11 @@ export default function Chat() {
                       </button>
                     </div>
                   )}
+
                   <div ref={scrollRef}></div>
                 </ScrollArea>
               </CardContent>
+
               <CardFooter>
                 <form
                   onSubmit={handleSubmit}
