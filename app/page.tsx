@@ -36,6 +36,17 @@ export default function Chat() {
   const [showChatIcon, setShowChatIcon] = useState(false);
   const chatIconRef = useRef<HTMLButtonElement>(null);
 
+  const {
+    messages,
+    input,
+    handleInputChange,
+    handleSubmit,
+    isLoading,
+    stop,
+    reload,
+    error,
+  } = useChat({ api: '/api/gemini' });
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 200) {
