@@ -16,14 +16,14 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'NoteWorthy - Интелигентно приложение за бележки',
+  title: 'NoteWorthy - Intelligent Note-Taking App',
   description:
-    'Организирайте мислите си, повишете продуктивността и никога не забравяйте важна информация с NoteWorthy.',
+    'Organize your thoughts, boost productivity, and never forget important information with NoteWorthy.',
   keywords: [
-    'бележки',
-    'организация',
-    'продуктивност',
-    'приложение за бележки',
+    'notes',
+    'organization',
+    'productivity',
+    'note-taking app',
     'NoteWorthy',
   ],
   authors: [{ name: 'NoteWorthy Team' }],
@@ -37,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='bg'>
+    <html lang='en'>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
